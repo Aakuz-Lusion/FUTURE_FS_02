@@ -7,7 +7,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function Dashboard() {
-  // const [leads, setLeads] = useState([]);  
+  const [leads, setLeads] = useState([]);  // Keep this - it's used
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     total: 0,
@@ -17,15 +17,17 @@ function Dashboard() {
   });
 
   useEffect(() => {
-  if (!id) return;
+    fetchLeads();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const fetchLead = async () => {
+  const fetchLeads = async () => {
     try {
-      const response = await getLead(id);
-      setLead(response.data);
+      const response = await getLeads();
+      const data = response.data;
+      setLeads(data);
+      calculateStats(data);
     } catch (error) {
-      console.error('Error fetching lead:', error);
-      setError('Failed to load lead details');
+      console.error('Error fetching leads:', error);
     } finally {
       setLoading(false);
     }

@@ -12,22 +12,8 @@ function LeadDetails() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-  if (!id) return;
-
-  const fetchLead = async () => {
-    try {
-      const response = await getLead(id);
-      setLead(response.data);
-    } catch (error) {
-      console.error('Error fetching lead:', error);
-      setError('Failed to load lead details');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchLead();
-}, [id]);
+    fetchLead();
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchLead = async () => {
     try {
