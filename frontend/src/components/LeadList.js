@@ -11,8 +11,9 @@ function LeadList() {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    fetchLeads();
-  }, []);
+  fetchLeads();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   const fetchLeads = async () => {
     try {
