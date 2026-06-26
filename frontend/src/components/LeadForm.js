@@ -227,15 +227,15 @@ function LeadForm() {
           </div>
 
           <div className="form-actions">
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn btn-primary"
               disabled={loading}
             >
               {loading ? 'Saving...' : (isEditing ? 'Update Lead' : 'Create Lead')}
             </button>
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="btn btn-secondary"
               onClick={() => navigate('/leads')}
             >
