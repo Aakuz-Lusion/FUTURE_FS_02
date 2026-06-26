@@ -13,7 +13,7 @@ function LeadDetails() {
 
   useEffect(() => {
     fetchLead();
-  }, [id]);
+  }, [id ,fetchLead]);
 
   const fetchLead = async () => {
     try {

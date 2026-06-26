@@ -7,7 +7,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function Dashboard() {
-  const [leads, setLeads] = useState([]);
+  // const [leads, setLeads] = useState([]);  
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     total: 0,
@@ -24,7 +24,7 @@ function Dashboard() {
     try {
       const response = await getLeads();
       const data = response.data;
-      setLeads(data);
+      // setLeads(data);
       calculateStats(data);
     } catch (error) {
       console.error('Error fetching leads:', error);

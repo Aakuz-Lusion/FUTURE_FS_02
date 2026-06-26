@@ -5,7 +5,7 @@ import { getLead, createLead, updateLead } from '../services/api';
 function LeadForm() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const isEditing = !!id;
+  const isEditing = Boolean(id);
 
   const [formData, setFormData] = useState({
     first_name: '',
@@ -23,10 +23,8 @@ function LeadForm() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (isEditing) {
-      fetchLead();
-    }
-  }, [id]);
+  if (id) fetchLead();
+}, [id, fetchLead]);
 
   const fetchLead = async () => {
     try {
@@ -42,7 +40,7 @@ function LeadForm() {
         position: lead.position || '',
         status: lead.status || 'New',
         source: lead.source || '',
-        notes: ''
+        notes: lead.notes || ''
       });
     } catch (error) {
       console.error('Error fetching lead:', error);
@@ -50,7 +48,10 @@ function LeadForm() {
     } finally {
       setLoading(false);
     }
-  };
+  };  
+
+  // fetchLead();
+
 
   const handleChange = (e) => {
     setFormData({
