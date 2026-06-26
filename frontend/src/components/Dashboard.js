@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { getLeads } from '../services/api';
 import { Pie } from 'react-chartjs-2';
@@ -7,7 +7,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function Dashboard() {
-  const [leads, setLeads] = useState([]);  // Keep this - it's used
+  const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     total: 0,
@@ -16,40 +16,7 @@ function Dashboard() {
     recentLeads: []
   });
 
-  useEffect(() => {
-    fetchLeads();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const fetchLeads = async () => {
-    try {
-      const response = await getLeads();
-      const data = response.data;
-      setLeads(data);
-      calculateStats(data);
-    } catch (error) {
-      console.error('Error fetching leads:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchLead();
-}, [id]);
-
-  const fetchLeads = async () => {
-    try {
-      const response = await getLeads();
-      const data = response.data;
-      // setLeads(data);
-      calculateStats(data);
-    } catch (error) {
-      console.error('Error fetching leads:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const calculateStats = (leadsData) => {
+  const calculateStats = useCallback((leadsData) => {
     const byStatus = {};
     let newThisMonth = 0;
     const now = new Date();
@@ -77,7 +44,24 @@ function Dashboard() {
       newThisMonth,
       recentLeads
     });
-  };
+  }, []);
+
+  const fetchLeads = useCallback(async () => {
+    try {
+      const response = await getLeads();
+      const data = response.data;
+      setLeads(data);
+      calculateStats(data);
+    } catch (error) {
+      console.error('Error fetching leads:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [calculateStats]);
+
+  useEffect(() => {
+    fetchLeads();
+  }, [fetchLeads]);
 
   if (loading) {
     return (
