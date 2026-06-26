@@ -23,35 +23,34 @@ function LeadForm() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-  if (id) fetchLead();
-}, [id, fetchLead]);
+    if (!id) return;
 
-  const fetchLead = async () => {
-    try {
-      setLoading(true);
-      const response = await getLead(id);
-      const lead = response.data;
-      setFormData({
-        first_name: lead.first_name || '',
-        last_name: lead.last_name || '',
-        email: lead.email || '',
-        phone: lead.phone || '',
-        company: lead.company || '',
-        position: lead.position || '',
-        status: lead.status || 'New',
-        source: lead.source || '',
-        notes: lead.notes || ''
-      });
-    } catch (error) {
-      console.error('Error fetching lead:', error);
-      setError('Failed to load lead data');
-    } finally {
-      setLoading(false);
-    }
-  };  
+    const fetchLead = async () => {
+      try {
+        setLoading(true);
+        const response = await getLead(id);
+        const lead = response.data;
+        setFormData({
+          first_name: lead.first_name || '',
+          last_name: lead.last_name || '',
+          email: lead.email || '',
+          phone: lead.phone || '',
+          company: lead.company || '',
+          position: lead.position || '',
+          status: lead.status || 'New',
+          source: lead.source || '',
+          notes: lead.notes || ''
+        });
+      } catch (error) {
+        console.error('Error fetching lead:', error);
+        setError('Failed to load lead data');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // fetchLead();
-
+    fetchLead();
+  }, [id]);
 
   const handleChange = (e) => {
     setFormData({

@@ -17,8 +17,22 @@ function Dashboard() {
   });
 
   useEffect(() => {
-    fetchLeads();
-  }, []);
+  if (!id) return;
+
+  const fetchLead = async () => {
+    try {
+      const response = await getLead(id);
+      setLead(response.data);
+    } catch (error) {
+      console.error('Error fetching lead:', error);
+      setError('Failed to load lead details');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchLead();
+}, [id]);
 
   const fetchLeads = async () => {
     try {
