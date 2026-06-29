@@ -87,4 +87,4 @@
 
 ---
 
-## 📁 Project Structure
+## 📁 Projects Structure
